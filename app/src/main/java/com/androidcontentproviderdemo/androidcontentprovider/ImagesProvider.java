@@ -84,6 +84,12 @@ public class ImagesProvider extends ContentProvider {
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        return 0;
+        String id = null;
+        if(uriMatcher.match(uri) == IMAGE_ID) {
+            //Update is for one single image. Get the ID from the URI.
+            id = uri.getPathSegments().get(1);
+        }
+
+        return imageDatabase.updateImages(id, values);
     }
 }

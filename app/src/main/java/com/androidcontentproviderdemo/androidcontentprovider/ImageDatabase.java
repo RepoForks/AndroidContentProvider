@@ -71,4 +71,12 @@ public class ImageDatabase extends SQLiteOpenHelper {
             return getWritableDatabase().delete(TABLE_NAME, "_id=?", new String[]{id});
         }
     }
+
+    public int updateImages(String id, ContentValues values) {
+        if(id == null) {
+            return getWritableDatabase().update(TABLE_NAME, values, null, null);
+        } else {
+            return getWritableDatabase().update(TABLE_NAME, values, "_id=?", new String[]{id});
+        }
+    }
 }
