@@ -63,4 +63,12 @@ public class ImageDatabase extends SQLiteOpenHelper {
                 sortOrder);
         return cursor;
     }
+
+    public int deleteImages(String id) {
+        if(id == null) {
+            return getWritableDatabase().delete(TABLE_NAME, null , null);
+        } else {
+            return getWritableDatabase().delete(TABLE_NAME, "_id=?", new String[]{id});
+        }
+    }
 }

@@ -73,7 +73,13 @@ public class ImagesProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        return 0;
+        String id = null;
+        if(uriMatcher.match(uri) == IMAGE_ID) {
+            //Delete is for one single image. Get the ID from the URI.
+            id = uri.getPathSegments().get(1);
+        }
+
+        return imageDatabase.deleteImages(id);
     }
 
     @Override
