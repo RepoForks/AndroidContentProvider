@@ -2,8 +2,10 @@ package com.androidcontentproviderdemo.androidcontentprovider;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteQueryBuilder;
 
 import java.sql.SQLException;
 
@@ -12,7 +14,7 @@ public class ImageDatabase extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "ImagesDatabase.db";
     private static final String TABLE_NAME = "imagestore";
     private static final String SQL_CREATE = "CREATE TABLE " + TABLE_NAME +
-            " (_ID INTEGER PRIMARY KEY, IMAGEURL TEXT IMAGEDESC TEXT )";
+            " (_id INTEGER PRIMARY KEY, IMAGETITLE TEXT , IMAGEURL TEXT , IMAGEDESC TEXT )";
 
     private static final String SQL_DROP = "DROP TABLE IS EXISTS " + TABLE_NAME ;
 
@@ -39,5 +41,26 @@ public class ImageDatabase extends SQLiteOpenHelper {
         }
 
         return id;
+    }
+
+    public Cursor getImages(String id, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+        SQLiteQueryBuilder sqliteQueryBuilder = new SQLiteQueryBuilder();
+        sqliteQueryBuilder.setTables(TABLE_NAME);
+
+        if(id != null) {
+            sqliteQueryBuilder.appendWhere("_id" + " = " + id);
+        }
+
+        if(sortOrder == null || sortOrder == "") {
+            sortOrder = "IMAGETITLE";
+        }
+        Cursor cursor = sqliteQueryBuilder.query(getReadableDatabase(),
+                      projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder);
+        return cursor;
     }
 }
