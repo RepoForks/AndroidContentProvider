@@ -59,6 +59,13 @@
             android:layout_height="wrap_content"
             android:text="Add Image"
             android:id="@+id/btnAddImage"
+            android:layout_gravity="center_horizontal"
+            android:onClick="onClickAddImage" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lstViewImages"
             android:layout_gravity="center_horizontal" />
 
     </LinearLayout>

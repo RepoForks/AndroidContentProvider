@@ -1,12 +1,20 @@
 package com.androidcontentproviderdemo.androidcontentproviderusage;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
+import android.content.ContentValues;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
 
-public class ContentProviderUsageActivity extends ActionBarActivity {
+public class ContentProviderUsageActivity extends Activity {
+
+    private static final String PROVIDER_NAME = "androidcontentproviderdemo.androidcontentprovider.images";
+    private static final Uri CONTENT_URI = Uri.parse("content://" + PROVIDER_NAME + "/images");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,5 +42,15 @@ public class ContentProviderUsageActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onClickAddImage(View view) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("IMAGETITLE" , ((EditText)findViewById(R.id.edtTxtImageTitle)).getText().toString());
+        contentValues.put("IMAGEURL" , ((EditText)findViewById(R.id.edtImageUrl)).getText().toString());
+        contentValues.put("IMAGEDESC" , ((EditText)findViewById(R.id.edtImageDesc)).getText().toString());
+        Uri uri = getContentResolver().insert(CONTENT_URI, contentValues);
+        Toast.makeText(getBaseContext(), uri.toString(), Toast.LENGTH_LONG).show();
+
     }
 }
