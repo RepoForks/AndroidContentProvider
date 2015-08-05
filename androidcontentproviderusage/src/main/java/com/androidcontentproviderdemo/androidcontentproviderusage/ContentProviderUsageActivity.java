@@ -2,12 +2,16 @@ package com.androidcontentproviderdemo.androidcontentproviderusage;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.CursorLoader;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 
@@ -16,10 +20,30 @@ public class ContentProviderUsageActivity extends Activity {
     private static final String PROVIDER_NAME = "androidcontentproviderdemo.androidcontentprovider.images";
     private static final Uri CONTENT_URI = Uri.parse("content://" + PROVIDER_NAME + "/images");
 
+    private ListView listView;
+    private SimpleCursorAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content_provider_usage);
+        listView = (ListView) findViewById(R.id.lstViewImages);
+
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(getBaseContext(),
+                R.layout.list_layout,
+                null,
+                new String[] { "IMAGETITLE", "IMAGEURL", "IMAGEDESC"},
+                new int[] { R.id.imgTitle , R.id.imgUrl, R.id.imgDesc }, 0);
+
+        listView.setAdapter(adapter);
+        fetchValuesFromContentProvider();
+    }
+
+    private void fetchValuesFromContentProvider() {
+        CursorLoader cursorLoader = new CursorLoader(getBaseContext(), CONTENT_URI,
+                null, null, null, null);
+        Cursor c = cursorLoader.loadInBackground();
+        adapter.swapCursor(c);
     }
 
     @Override
