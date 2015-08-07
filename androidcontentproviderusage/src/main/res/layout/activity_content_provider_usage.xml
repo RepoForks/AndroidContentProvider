@@ -67,7 +67,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/lstViewImages"
             android:layout_gravity="center_horizontal" />
-
     </LinearLayout>
 
 </RelativeLayout>
